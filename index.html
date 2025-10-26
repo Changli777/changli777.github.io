@@ -1,16 +1,11 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tenshi Yami</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
 
     body {
       height: 100vh;
@@ -23,7 +18,6 @@
       overflow: hidden;
     }
 
-    /* 🌌 Video nền */
     .video-bg {
       position: fixed;
       top: 0;
@@ -31,7 +25,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      opacity: 0.55;
+      opacity: 0.6;
       filter: brightness(60%);
       pointer-events: none;
       z-index: 0;
@@ -59,13 +53,8 @@
       box-shadow: 0 0 25px #ff0033;
     }
 
-    h1 {
-      margin-top: 10px;
-      font-size: 34px;
-      text-shadow: 0 0 15px #ff0033;
-    }
+    h1 { margin-top: 10px; font-size: 34px; text-shadow: 0 0 15px #ff0033; }
 
-    /* 🔗 Nút link dài, viền đỏ */
     .social-links {
       margin-top: 40px;
       display: flex;
@@ -98,7 +87,6 @@
       box-shadow: 0 0 25px #ff0033, 0 0 40px #ff0055;
     }
 
-    /* 🎵 Nút nhạc */
     .music-btn {
       position: fixed;
       top: 20px;
@@ -115,10 +103,7 @@
       z-index: 3;
     }
 
-    .music-btn:hover {
-      background: #ff0033;
-      color: #000;
-    }
+    .music-btn:hover { background: #ff0033; color: #000; }
 
     .volume-control {
       position: fixed;
@@ -127,37 +112,32 @@
       z-index: 3;
     }
 
-    #volumeSlider {
-      width: 100px;
-      cursor: pointer;
-    }
+    #volumeSlider { width: 100px; cursor: pointer; }
 
     audio { display: none; }
   </style>
 </head>
 <body>
-  <!-- 🎬 Video nền -->
   <video autoplay loop muted playsinline class="video-bg">
-    <source src="img/Wuthering Waves Chapter Rinascita Special Cinematics  Beautiful Tomorrow - Wuthering Waves (720p, h264, youtube).mp4" type="video/mp4">
+    <source src="img/Wuwa.mp4" type="video/mp4" />
   </video>
 
-  <!-- 🎵 Nút nhạc -->
   <button class="music-btn" id="musicBtn">🎵</button>
   <audio id="bgMusic" loop preload="auto">
-    <source src="img/Wuthering Waves EP2.4  Lupa - RUNNING FOR YOUR LIFE (Prod. by Grabbitz).mp3" type="audio/mpeg">
+    <source src="img/Lupa.mp3" type="audio/mpeg" />
   </audio>
   <div class="volume-control">
-    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
+    <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3" />
   </div>
 
   <div class="container">
-    <img src="img/image1.png" alt="avatar" class="avatar">
+    <img src="img/image1.png" alt="avatar" class="avatar" />
     <h1>Tenshi Yami</h1>
 
     <div class="social-links">
-      <a href="https://github.com/Changli777" target="_blank" class="social-item">GitHub</a>
-      <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank" class="social-item">Facebook</a>
-      <a href="https://www.tiktok.com/@xuden248" target="_blank" class="social-item">TikTok</a>
+      <a href="https://discord.gg/fX9vW279He" target="_blank" class="social-item" data-link="discord">GitHub</a>
+      <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank" class="social-item" data-link="facebook">Facebook</a>
+      <a href="https://www.tiktok.com/@xuden248" target="_blank" class="social-item" data-link="tiktok">TikTok</a>
     </div>
   </div>
 
@@ -167,34 +147,28 @@
     const volumeSlider = document.getElementById("volumeSlider");
     let isPlaying = false;
 
-    // 🧠 Cách "lách" autoplay: bắt đầu với muted, rồi mở volume dần
-    function tryPlayMusic() {
-      music.volume = 0; // bắt đầu im lặng
-      music.play().then(() => {
-        let vol = 0;
-        const fade = setInterval(() => {
-          if (vol < 0.3) {
-            vol += 0.02;
-            music.volume = vol;
-          } else {
-            clearInterval(fade);
-          }
-        }, 200);
-        isPlaying = true;
-        btn.textContent = "🔇";
-      }).catch(() => {
-        // Nếu trình duyệt vẫn chặn thì bật khi user click
-        document.body.addEventListener("click", () => {
-          music.play();
+    window.addEventListener("DOMContentLoaded", () => {
+      const startMusic = () => {
+        music.volume = 0;
+        music.play().then(() => {
+          let v = 0;
+          const fade = setInterval(() => {
+            if (v < 0.3) {
+              v += 0.02;
+              music.volume = v;
+            } else clearInterval(fade);
+          }, 200);
           btn.textContent = "🔇";
-        }, { once: true });
-      });
-    }
+          isPlaying = true;
+        });
+        document.removeEventListener("click", startMusic);
+        document.removeEventListener("touchstart", startMusic);
+      };
 
-    // Gọi khi trang load
-    window.addEventListener("load", tryPlayMusic);
+      document.addEventListener("click", startMusic);
+      document.addEventListener("touchstart", startMusic);
+    });
 
-    // Nút bật/tắt
     btn.addEventListener("click", () => {
       if (isPlaying) {
         music.pause();
@@ -206,9 +180,23 @@
       isPlaying = !isPlaying;
     });
 
-    // Âm lượng
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
+    });
+
+    document.querySelectorAll(".social-item").forEach(link => {
+      link.addEventListener("click", async (e) => {
+        const linkName = link.dataset.link;
+        try {
+          await fetch("http://localhost:5000/api/link/click", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `linkName=${linkName}`
+          });
+        } catch (err) {
+          console.error("Không thể ghi lượt xem:", err);
+        }
+      });
     });
   </script>
 </body>

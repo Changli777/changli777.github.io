@@ -146,36 +146,44 @@
     const btn = document.getElementById("musicBtn");
     const volumeSlider = document.getElementById("volumeSlider");
     let isPlaying = false;
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const startMusic = () => {
+ 
+    music.volume = 0.3;
+  
+    const playMusicSmoothly = async () => {
+      try {
+        await music.play();
         music.volume = 0;
-        music.play().then(() => {
-          let v = 0;
-          const fade = setInterval(() => {
-            if (v < 0.3) {
-              v += 0.02;
-              music.volume = v;
-            } else clearInterval(fade);
-          }, 200);
-          btn.textContent = "🔇";
-          isPlaying = true;
-        });
-        document.removeEventListener("click", startMusic);
-        document.removeEventListener("touchstart", startMusic);
-      };
-
-      document.addEventListener("click", startMusic);
-      document.addEventListener("touchstart", startMusic);
-    });
-
+        let v = 0;
+        const fadeIn = setInterval(() => {
+          if (v < 0.3) {
+            v += 0.02;
+            music.volume = v;
+          } else {
+            clearInterval(fadeIn);
+          }
+        }, 150);
+        btn.textContent = "🔇";
+        isPlaying = true;
+      } catch (err) {
+        console.warn("Autoplay bị chặn, sẽ phát khi người dùng tương tác.");
+        document.addEventListener("click", firstPlay);
+        document.addEventListener("touchstart", firstPlay);
+      }
+    };
+ 
+    const firstPlay = () => {
+      playMusicSmoothly();
+      document.removeEventListener("click", firstPlay);
+      document.removeEventListener("touchstart", firstPlay);
+    };
+    window.addEventListener("load", playMusicSmoothly);
+  
     btn.addEventListener("click", () => {
       if (isPlaying) {
         music.pause();
         btn.textContent = "🎵";
       } else {
-        music.play();
-        btn.textContent = "🔇";
+        playMusicSmoothly();
       }
       isPlaying = !isPlaying;
     });
@@ -183,9 +191,9 @@
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
     });
-
+  
     document.querySelectorAll(".social-item").forEach(link => {
-      link.addEventListener("click", async (e) => {
+      link.addEventListener("click", async () => {
         const linkName = link.dataset.link;
         try {
           await fetch("http://localhost:5000/api/link/click", {

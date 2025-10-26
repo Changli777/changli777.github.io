@@ -32,10 +32,12 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      opacity: 0.5;
+      opacity: 0.55;
       filter: brightness(60%);
+      pointer-events: none;
     }
 
+    /* 📦 Khung chính */
     .container {
       position: relative;
       z-index: 2;
@@ -49,29 +51,35 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* 🧑 Avatar + tên nằm ngang */
+    .profile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+
     .avatar {
-      width: 150px;
-      height: 150px;
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
       border: 3px solid #fff;
       object-fit: cover;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 25px #00f5d4;
     }
 
     h1 {
-      margin-top: 15px;
-      font-size: 28px;
+      font-size: 32px;
       text-shadow: 0 0 10px #00f5d4;
     }
 
-    /* 🌟 Logo dưới avatar */
+    /* 🌟 Logo mạng xã hội */
     .logos {
-      margin-top: 10px;
+      margin-top: 20px;
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 25px;
       flex-wrap: wrap;
-      z-index: 2;
     }
 
     .logos img {
@@ -86,8 +94,9 @@
       filter: drop-shadow(0 0 20px #00f5d4);
     }
 
+    /* 🔗 Nút liên kết */
     .links {
-      margin-top: 20px;
+      margin-top: 25px;
       display: flex;
       gap: 15px;
       justify-content: center;
@@ -110,6 +119,7 @@
       box-shadow: 0 0 15px #00f5d4;
     }
 
+    /* 🎵 Nút nhạc */
     .music-btn {
       position: fixed;
       top: 20px;
@@ -126,6 +136,11 @@
       z-index: 3;
     }
 
+    .music-btn:hover {
+      background: #00f5d4;
+      color: #000;
+    }
+
     .volume-control {
       position: fixed;
       top: 80px;
@@ -138,11 +153,6 @@
       cursor: pointer;
     }
 
-    .music-btn:hover {
-      background: #00f5d4;
-      color: #000;
-    }
-
     audio {
       display: none;
     }
@@ -150,12 +160,14 @@
 </head>
 
 <body>
-    <video autoplay loop muted playsinline volume="0" class="video-bg">
-        <source src="/img/Wuthering Waves Chapter Rinascita Special Cinematics  Beautiful Tomorrow - Wuthering Waves (720p, h264, youtube).mp4" type="video/mp4">
-      </video>
-      
+  <!-- 🎬 Video nền -->
+  <video autoplay loop muted playsinline class="video-bg">
+    <source src="/img/Wuthering Waves Chapter Rinascita Special Cinematics  Beautiful Tomorrow - Wuthering Waves (720p, h264, youtube).mp4" type="video/mp4">
+  </video>
+
+  <!-- 🎵 Nút nhạc -->
   <button class="music-btn" id="musicBtn">🎵</button>
-  <audio id="bgMusic" loop>
+  <audio id="bgMusic" loop preload="auto">
     <source src="img/Wuthering Waves EP2.4  Lupa - RUNNING FOR YOUR LIFE (Prod. by Grabbitz).mp3" type="audio/mpeg">
   </audio>
   <div class="volume-control">
@@ -163,15 +175,20 @@
   </div>
 
   <div class="container">
-    <img src="img/image1.png" alt="avatar" class="avatar">
-    <h1>Tenshi Yami</h1>
+    <!-- 🧩 Avatar + Tên -->
+    <div class="profile">
+      <img src="img/image1.png" alt="avatar" class="avatar">
+      <h1>Tenshi Yami</h1>
+    </div>
 
+    <!-- 🌟 Logo mạng xã hội -->
     <div class="logos">
       <img src="img/image2.png" alt="GitHub">
       <img src="img/image3.png" alt="Facebook">
       <img src="img/image.png" alt="Tiktok">
     </div>
 
+    <!-- 🔗 Liên kết -->
     <div class="links">
       <a href="https://github.com/Changli777" target="_blank">GitHub</a>
       <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank">Facebook</a>
@@ -185,8 +202,10 @@
     const volumeSlider = document.getElementById("volumeSlider");
     let isPlaying = false;
 
+    // Âm lượng mặc định
     music.volume = 0.3;
 
+    // Phát hoặc tạm dừng nhạc
     btn.addEventListener("click", () => {
       if (isPlaying) {
         music.pause();
@@ -198,8 +217,19 @@
       isPlaying = !isPlaying;
     });
 
+    // Điều chỉnh âm lượng
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
+    });
+
+    // Tự động khởi động nhạc khi click lần đầu vào trang (tránh bị chặn autoplay)
+    document.body.addEventListener("click", function autoPlayOnce() {
+      if (!isPlaying) {
+        music.play();
+        isPlaying = true;
+        btn.textContent = "🔇";
+      }
+      document.body.removeEventListener("click", autoPlayOnce);
     });
   </script>
 </body>

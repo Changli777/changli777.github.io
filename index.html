@@ -143,16 +143,12 @@
 
   <script>
     const music = document.getElementById("bgMusic");
-    const btn = document.getElementById("musicBtn");
     const volumeSlider = document.getElementById("volumeSlider");
-    let isPlaying = false;
- 
-    music.volume = 0.3;
   
-    const playMusicSmoothly = async () => {
+    async function playMusicSmoothly() {
+      music.volume = 0; 
       try {
-        await music.play();
-        music.volume = 0;
+        await music.play(); 
         let v = 0;
         const fadeIn = setInterval(() => {
           if (v < 0.3) {
@@ -162,36 +158,22 @@
             clearInterval(fadeIn);
           }
         }, 150);
-        btn.textContent = "🔇";
-        isPlaying = true;
       } catch (err) {
-        console.warn("Autoplay bị chặn, sẽ phát khi người dùng tương tác.");
+        console.warn("Autoplay bị chặn — sẽ phát khi người dùng tương tác đầu tiên");
+        const firstPlay = () => {
+          playMusicSmoothly();
+          document.removeEventListener("click", firstPlay);
+          document.removeEventListener("touchstart", firstPlay);
+        };
         document.addEventListener("click", firstPlay);
         document.addEventListener("touchstart", firstPlay);
       }
-    };
- 
-    const firstPlay = () => {
-      playMusicSmoothly();
-      document.removeEventListener("click", firstPlay);
-      document.removeEventListener("touchstart", firstPlay);
-    };
+    }
     window.addEventListener("load", playMusicSmoothly);
-  
-    btn.addEventListener("click", () => {
-      if (isPlaying) {
-        music.pause();
-        btn.textContent = "🎵";
-      } else {
-        playMusicSmoothly();
-      }
-      isPlaying = !isPlaying;
-    });
-
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
     });
-  
+
     document.querySelectorAll(".social-item").forEach(link => {
       link.addEventListener("click", async () => {
         const linkName = link.dataset.link;

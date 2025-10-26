@@ -23,7 +23,7 @@
       overflow: hidden;
     }
 
-    /* 🌌 Video nền động */
+    /* 🌌 Video nền */
     .video-bg {
       position: fixed;
       top: 0;
@@ -31,10 +31,10 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: 0;
       opacity: 0.55;
       filter: brightness(60%);
       pointer-events: none;
+      z-index: 0;
     }
 
     .container {
@@ -50,14 +50,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 🧑 Avatar + tên */
-    .profile {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-
     .avatar {
       width: 120px;
       height: 120px;
@@ -68,52 +60,54 @@
     }
 
     h1 {
+      margin-top: 10px;
       font-size: 32px;
       text-shadow: 0 0 10px #00f5d4;
     }
 
-    /* 🌟 Nút logo và link chung */
+    /* 🔗 Nút link dạng ngang */
     .social-links {
-      margin-top: 30px;
+      margin-top: 40px;
       display: flex;
-      justify-content: center;
-      gap: 25px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
     }
 
     .social-item {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      justify-content: center;
+      gap: 10px;
       text-decoration: none;
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid #00f5d4;
-      border-radius: 20px;
-      width: 100px;
-      padding: 12px;
+      color: #00f5d4;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #00f5d4;
+      border-radius: 15px;
+      width: 250px;
+      height: 60px;
+      font-weight: 600;
       transition: 0.3s;
-      box-shadow: 0 0 8px rgba(0, 245, 212, 0.2);
+      box-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
     }
 
     .social-item:hover {
       background: #00f5d4;
       color: #000;
+      transform: translateY(-3px);
       box-shadow: 0 0 20px #00f5d4;
-      transform: translateY(-5px);
     }
 
     .social-item img {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 8px;
-      filter: drop-shadow(0 0 10px #00f5d4);
-      transition: transform 0.3s;
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 5px #00f5d4);
+      transition: 0.3s;
     }
 
     .social-item:hover img {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 20px #00f5d4);
+      filter: drop-shadow(0 0 10px #000);
     }
 
     /* 🎵 Nút nhạc */
@@ -150,12 +144,9 @@
       cursor: pointer;
     }
 
-    audio {
-      display: none;
-    }
+    audio { display: none; }
   </style>
 </head>
-
 <body>
   <!-- 🎬 Video nền -->
   <video autoplay loop muted playsinline class="video-bg">
@@ -172,13 +163,9 @@
   </div>
 
   <div class="container">
-    <!-- 🧩 Avatar + Tên -->
-    <div class="profile">
-      <img src="img/image1.png" alt="avatar" class="avatar">
-      <h1>Tenshi Yami</h1>
-    </div>
+    <img src="img/image1.png" alt="avatar" class="avatar">
+    <h1>Tenshi Yami</h1>
 
-    <!-- 🌟 Logo + Liên kết chung -->
     <div class="social-links">
       <a href="https://github.com/Changli777" target="_blank" class="social-item">
         <img src="img/image2.png" alt="GitHub">
@@ -190,7 +177,7 @@
       </a>
       <a href="https://www.tiktok.com/@xuden248" target="_blank" class="social-item">
         <img src="img/image.png" alt="Tiktok">
-        Tiktok
+        TikTok
       </a>
     </div>
   </div>
@@ -201,10 +188,8 @@
     const volumeSlider = document.getElementById("volumeSlider");
     let isPlaying = false;
 
-    // âm lượng mặc định
     music.volume = 0.3;
 
-    // chỉ phát khi bấm nút
     btn.addEventListener("click", () => {
       if (isPlaying) {
         music.pause();
@@ -216,7 +201,6 @@
       isPlaying = !isPlaying;
     });
 
-    // điều chỉnh âm lượng
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
     });

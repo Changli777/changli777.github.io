@@ -37,7 +37,6 @@
       pointer-events: none;
     }
 
-    /* 📦 Khung chính */
     .container {
       position: relative;
       z-index: 2;
@@ -51,7 +50,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 🧑 Avatar + tên nằm ngang */
+    /* 🧑 Avatar + tên */
     .profile {
       display: flex;
       align-items: center;
@@ -73,50 +72,48 @@
       text-shadow: 0 0 10px #00f5d4;
     }
 
-    /* 🌟 Logo mạng xã hội */
-    .logos {
-      margin-top: 20px;
+    /* 🌟 Nút logo và link chung */
+    .social-links {
+      margin-top: 30px;
       display: flex;
       justify-content: center;
       gap: 25px;
       flex-wrap: wrap;
     }
 
-    .logos img {
-      width: 50px;
-      height: 50px;
-      transition: transform 0.3s, filter 0.3s;
-      filter: drop-shadow(0 0 10px #00f5d4);
-    }
-
-    .logos img:hover {
-      transform: scale(1.2);
-      filter: drop-shadow(0 0 20px #00f5d4);
-    }
-
-    /* 🔗 Nút liên kết */
-    .links {
-      margin-top: 25px;
+    .social-item {
       display: flex;
-      gap: 15px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .links a {
-      padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid #00f5d4;
-      border-radius: 25px;
-      color: #fff;
+      flex-direction: column;
+      align-items: center;
       text-decoration: none;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid #00f5d4;
+      border-radius: 20px;
+      width: 100px;
+      padding: 12px;
       transition: 0.3s;
+      box-shadow: 0 0 8px rgba(0, 245, 212, 0.2);
     }
 
-    .links a:hover {
+    .social-item:hover {
       background: #00f5d4;
       color: #000;
-      box-shadow: 0 0 15px #00f5d4;
+      box-shadow: 0 0 20px #00f5d4;
+      transform: translateY(-5px);
+    }
+
+    .social-item img {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 0 10px #00f5d4);
+      transition: transform 0.3s;
+    }
+
+    .social-item:hover img {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 20px #00f5d4);
     }
 
     /* 🎵 Nút nhạc */
@@ -181,18 +178,20 @@
       <h1>Tenshi Yami</h1>
     </div>
 
-    <!-- 🌟 Logo mạng xã hội -->
-    <div class="logos">
-      <img src="img/image2.png" alt="GitHub">
-      <img src="img/image3.png" alt="Facebook">
-      <img src="img/image.png" alt="Tiktok">
-    </div>
-
-    <!-- 🔗 Liên kết -->
-    <div class="links">
-      <a href="https://github.com/Changli777" target="_blank">GitHub</a>
-      <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank">Facebook</a>
-      <a href="https://www.tiktok.com/@xuden248" target="_blank">Tiktok</a>
+    <!-- 🌟 Logo + Liên kết chung -->
+    <div class="social-links">
+      <a href="https://github.com/Changli777" target="_blank" class="social-item">
+        <img src="img/image2.png" alt="GitHub">
+        GitHub
+      </a>
+      <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank" class="social-item">
+        <img src="img/image3.png" alt="Facebook">
+        Facebook
+      </a>
+      <a href="https://www.tiktok.com/@xuden248" target="_blank" class="social-item">
+        <img src="img/image.png" alt="Tiktok">
+        Tiktok
+      </a>
     </div>
   </div>
 
@@ -202,10 +201,10 @@
     const volumeSlider = document.getElementById("volumeSlider");
     let isPlaying = false;
 
-    // Âm lượng mặc định
+    // âm lượng mặc định
     music.volume = 0.3;
 
-    // Phát hoặc tạm dừng nhạc
+    // chỉ phát khi bấm nút
     btn.addEventListener("click", () => {
       if (isPlaying) {
         music.pause();
@@ -217,19 +216,9 @@
       isPlaying = !isPlaying;
     });
 
-    // Điều chỉnh âm lượng
+    // điều chỉnh âm lượng
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
-    });
-
-    // Tự động khởi động nhạc khi click lần đầu vào trang (tránh bị chặn autoplay)
-    document.body.addEventListener("click", function autoPlayOnce() {
-      if (!isPlaying) {
-        music.play();
-        isPlaying = true;
-        btn.textContent = "🔇";
-      }
-      document.body.removeEventListener("click", autoPlayOnce);
     });
   </script>
 </body>

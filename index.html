@@ -51,63 +51,51 @@
     }
 
     .avatar {
-      width: 120px;
-      height: 120px;
+      width: 130px;
+      height: 130px;
       border-radius: 50%;
       border: 3px solid #fff;
       object-fit: cover;
-      box-shadow: 0 0 25px #00f5d4;
+      box-shadow: 0 0 25px #ff0033;
     }
 
     h1 {
       margin-top: 10px;
-      font-size: 32px;
-      text-shadow: 0 0 10px #00f5d4;
+      font-size: 34px;
+      text-shadow: 0 0 15px #ff0033;
     }
 
-    /* 🔗 Nút link dạng ngang */
+    /* 🔗 Nút link dài, viền đỏ */
     .social-links {
       margin-top: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 15px;
+      gap: 18px;
     }
 
     .social-item {
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 10px;
+      align-items: center;
       text-decoration: none;
-      color: #00f5d4;
-      background: rgba(0, 0, 0, 0.6);
-      border: 2px solid #00f5d4;
-      border-radius: 15px;
-      width: 250px;
+      color: #ff0033;
+      background: rgba(0, 0, 0, 0.7);
+      border: 2px solid #ff0033;
+      border-radius: 20px;
+      width: 320px;
       height: 60px;
       font-weight: 600;
+      font-size: 20px;
       transition: 0.3s;
-      box-shadow: 0 0 10px rgba(0, 245, 212, 0.3);
+      box-shadow: 0 0 15px rgba(255, 0, 51, 0.4);
     }
 
     .social-item:hover {
-      background: #00f5d4;
+      background: #ff0033;
       color: #000;
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px #00f5d4;
-    }
-
-    .social-item img {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 5px #00f5d4);
-      transition: 0.3s;
-    }
-
-    .social-item:hover img {
-      filter: drop-shadow(0 0 10px #000);
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #ff0033, 0 0 40px #ff0055;
     }
 
     /* 🎵 Nút nhạc */
@@ -128,7 +116,7 @@
     }
 
     .music-btn:hover {
-      background: #00f5d4;
+      background: #ff0033;
       color: #000;
     }
 
@@ -150,13 +138,13 @@
 <body>
   <!-- 🎬 Video nền -->
   <video autoplay loop muted playsinline class="video-bg">
-    <source src="/img/Wuthering Waves Chapter Rinascita Special Cinematics  Beautiful Tomorrow - Wuthering Waves (720p, h264, youtube).mp4" type="video/mp4">
+    <source src="img/Wuthering Waves Chapter Rinascita Special Cinematics.mp4" type="video/mp4">
   </video>
 
   <!-- 🎵 Nút nhạc -->
   <button class="music-btn" id="musicBtn">🎵</button>
   <audio id="bgMusic" loop preload="auto">
-    <source src="img/Wuthering Waves EP2.4  Lupa - RUNNING FOR YOUR LIFE (Prod. by Grabbitz).mp3" type="audio/mpeg">
+    <source src="img/Wuthering Waves EP2.4  Lupa - RUNNING FOR YOUR LIFE.mp3" type="audio/mpeg">
   </audio>
   <div class="volume-control">
     <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.3">
@@ -167,18 +155,9 @@
     <h1>Tenshi Yami</h1>
 
     <div class="social-links">
-      <a href="https://github.com/Changli777" target="_blank" class="social-item">
-        <img src="img/image2.png" alt="GitHub">
-        GitHub
-      </a>
-      <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank" class="social-item">
-        <img src="img/image3.png" alt="Facebook">
-        Facebook
-      </a>
-      <a href="https://www.tiktok.com/@xuden248" target="_blank" class="social-item">
-        <img src="img/image.png" alt="Tiktok">
-        TikTok
-      </a>
+      <a href="https://github.com/Changli777" target="_blank" class="social-item">GitHub</a>
+      <a href="https://www.facebook.com/ngocanh.nguyen.999692" target="_blank" class="social-item">Facebook</a>
+      <a href="https://www.tiktok.com/@xuden248" target="_blank" class="social-item">TikTok</a>
     </div>
   </div>
 
@@ -188,7 +167,13 @@
     const volumeSlider = document.getElementById("volumeSlider");
     let isPlaying = false;
 
-    music.volume = 0.3;
+    document.addEventListener("click", () => {
+      if (!isPlaying) {
+        music.play().catch(() => {});
+        isPlaying = true;
+        btn.textContent = "🔇";
+      }
+    }, { once: true });
 
     btn.addEventListener("click", () => {
       if (isPlaying) {
@@ -204,6 +189,7 @@
     volumeSlider.addEventListener("input", () => {
       music.volume = volumeSlider.value;
     });
+    music.volume = 0.3;
   </script>
 </body>
 </html>
